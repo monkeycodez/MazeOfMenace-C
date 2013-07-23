@@ -1,0 +1,17 @@
+    `gThe Inventory`
+    During your misfortunes in the Maze of Menace you will come across items,
+    picking them up with 'g' will reward you with an entry on the inventory
+    screen.  After accessing the inventory screen with 'i', you select items
+    with a-j for armor and 1-0 for weapons.  After an item is selected, you can
+    (e)quip weapons and (w)ear armor. pressing 'r' will destroy the selected item,
+    'd' will deselect the item, and pressing 'q' any time in the inventory screen 
+    will exit the screen and return you to the dungeon.
+    
+    `pTips`
+    If an enemy is 1 tile away from you, wait one turn instead of moving
+         toward it, so that you don't give the enemy a free attack
+    Fountains (`b%`) restore 10 health each time you 'd'rink on top of it
+    `r!!WARNING!!`  Daemons '&' have randomly generated health and attack. They can 
+            be either a nuisance for the experienced, or deadly to the unwary.
+     Your looking for `fThe +10 Orb of Yendor`. This magical artifact is not found in
+         the easy levels.

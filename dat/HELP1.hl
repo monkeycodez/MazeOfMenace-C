@@ -1,0 +1,21 @@
+	`gThe Controls:`
+	In "normal mode", otherwise known as wandering
+	around the dungeon aimlessly, use these keys:
+	
+    Arrow Keys: moving. standing next to an enemy and moving in the direction
+                of the enemy will attack the enemy.
+       k   
+       |
+    h- . -l  : h,j,k,l can be used as alternate movement keys
+       | 
+       j
+    
+    'd' : drink from a fountain
+    'g' : grab an item from the floor
+    'i' : open the inventory screen
+    '+' : go up a floor if you are on stairs
+    '-' : go down a floor if you are on stairs
+    '.' : wait one turn
+    'R' : restart the game
+    'S' : save and exit the game
+    end : instantly exit the game	

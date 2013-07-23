@@ -1,0 +1,6 @@
+mazeofmenace.log
+bin/*
+*.o
+old
+*.swp
+*~

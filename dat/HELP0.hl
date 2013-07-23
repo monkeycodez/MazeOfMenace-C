@@ -1,0 +1,20 @@
+    `gWelcome to The Maze Of Menace`
+    `pThis is the help screen
+    press space to advance, b to go back
+    and q to quit`
+     
+Part 1: The Display
+     Each character on the screen represents 
+     something. Common objects are:
+     
+    # = wall
+	. = floor
+	`rg, k, N, &`... = monsters are represented by letters
+	`b@` = This is you
+	`p*`, `r]` - these are items
+	`b%` - a fountain. thirsty?
+	> = down stair
+	< = up stair
+	You will also see your status and messages on the bottom
+	of the screen. Look here to find important messages
+	and your hit points. 
