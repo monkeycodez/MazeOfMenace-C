@@ -28,12 +28,11 @@
 #include "logger.h"
 #include "dgn.h"
 
-extern int gameState;
 void firstInit();
 
 int main(int argc, char *argv[]){
 	srand(time(NULL));
-	startl();
+	atexit(endEnv);
 	load_mons();
 	firstInit();
 	return 0;
@@ -63,7 +62,6 @@ void firstInit(){
 	while(e){
 		e = initGame();
 	}
-	endEnv();
 }
 
 

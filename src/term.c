@@ -107,7 +107,7 @@ void displayScr(){
 	refresh();
 }
 
-void putStringWithAttrib(char *str, int xStart, int yStart){
+void putStringWithAttrib(const char *str, int xStart, int yStart){
 	if(inited){
 		int size = strlen(str), wait = 0, in = 0, c = 0, currcol = CWHITE;
 		int x = yStart, y = xStart;

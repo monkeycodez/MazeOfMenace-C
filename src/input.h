@@ -21,14 +21,34 @@
 
 #include "dgn.h"
 
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  initI
+ *  Description:  Initalizes the input system
+ * =====================================================================================
+ */
 void initI();
 
 int startLoop();
 
 int mainLoop(struct dungeon *dgn);
 
-#define NRESTART 255
-#define RESTARTN 1
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  getKch
+ *  Description:  gets input and returns it or returns NRESTART if it is a 
+ *  			die key
+ * =====================================================================================
+ */
+int getKch();
+
+#define RESTARTN 255
+#define CONT 254
+#define NRESTART 0
 #define DEATH_FILE "dat/deathMsg"
+
+#define CTRL_C_K 3
 
 #endif

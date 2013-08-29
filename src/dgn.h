@@ -38,6 +38,8 @@
 #define FALSE 0
 #endif
 
+struct dungeon;
+
 enum direc{
 	NORTH, SOUTH,
 	EAST, WEST,
@@ -47,6 +49,7 @@ enum direc{
 
 struct weapon{
 	short type;
+	char *name;
 	int basea;
 	int toHit;
 	int wepp;
@@ -54,8 +57,17 @@ struct weapon{
 
 struct a_chest{
 	short type;
+	char *name;
 	int based;
 	int ev;
+};
+
+struct consume{
+	short type;
+	char *name;
+	int cnt;
+	int pow;
+	int (*cons_use_f)(struct dungeon *dgn, int pow);
 };
 
 #define I_WEP 1
@@ -65,6 +77,7 @@ union item{
 	short type;
 	struct weapon w;
 	struct a_chest c;
+	struct consume i;
 };
 
 struct entity{

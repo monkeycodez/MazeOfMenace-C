@@ -21,20 +21,14 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-FILE* f;
 
-void endl(void){
-	fclose(f);
-}
-
-void startl(){
-	atexit(endl);
-	f = fopen(LOG_FILE, "w");
-}
-
-void _log_add(char *a, ...){
+void _log_add(char *file, char *msg, ...){
+	FILE* f = fopen(file, "a");
+	if(!f) exit(-1);
 	va_list argptr;
-	va_start(argptr, a);
-	vfprintf(f, a, argptr);
+	va_start(argptr, msg);
+	vfprintf(f, msg, argptr);
 	va_end(argptr);
+	fflush(f);
+	fclose(f);
 }

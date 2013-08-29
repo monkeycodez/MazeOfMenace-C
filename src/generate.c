@@ -138,7 +138,7 @@ static void a1_mkStairs(struct level *lvl){
 	}
 	lvl->sup = &lvl->lvl[x][y];
 	lvl->sup->base = STAIR_UP;
-	log_info("stair up: lvl = %d, x = %d, y = %d", lvl->depth, x, y);
+	log_info("stair up: lvl = %d, x = %d, y = %d\n", lvl->depth, x, y);
 	x = R_INT_M(lvl->h - 1);
 	y = R_INT_M(lvl->h - 1);
 	while(lvl->lvl[x][y].base != FLOOR){

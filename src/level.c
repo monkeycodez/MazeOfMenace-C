@@ -30,6 +30,8 @@ void drawTile(struct tile *t, int x,int y){
 	if(t->vis){
 		if(t->ent){
 			putChar(x, y, t->ent->c, t->ent->col);
+		}else if (t->itm != NULL && darray_usize(t->itm) > 0){
+			putChar(x, y, '%', CGREEN);
 		}else if(t->base == WALL){
 			putChar(x, y, '#', CGRAY);
 		}else if(t->base == FLOOR){

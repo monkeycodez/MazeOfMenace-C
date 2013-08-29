@@ -22,24 +22,70 @@
 #include "alg/darray.h"
 #include "alg/rand.h"
 #include "logger.h"
+#include "e_template.h"
 
 struct darray *mons;
+
+int mons_range = 3;
+int mons_r_mid = 0;
+
+void add_mons(struct e_temp *e){
+	darray_add(mons, e);
+}
 
 void load_mons(){
 	//TODO: make actual mons loading
 	
 	mons = darray_new();
-	struct entity *ent = calloc(1, sizeof(struct entity));
-	ent->hp = 10;
-	ent->hpmax = 10;
-	ent->name = "goblin";
-	ent->speed = 50;
-	ent->scount = 1;
-	ent->c = 'g';
-	ent->attk = 5;
-	ent->col = 4;
-	darray_add(mons, ent);
+	parseEnts();
 		
+}
+
+void putMons(struct level *lvl, struct e_temp *ent, int x, int y){
+	struct entity *e = calloc(1, sizeof(struct entity));
+	struct tile *t = &lvl->lvl[x][y];
+	t->ent = e;
+	e->loc = t;
+	e->list = lvl->mons;
+	darray_add(lvl->mons, e);
+	e->name = strdup(ent->name);
+	e->hpmax = R_INT_R(ent->hpmin, ent->hpmax);
+	e->hp = e->hpmax;
+	e->attk = R_INT_R(ent->attkmin, ent->attkmax);
+	e->def = R_INT_R(ent->defmin, ent->defmax);
+	e->speed = 50;
+	e->scount = e->speed;
+	e->c = ent->disp;
+	e->col = ent->color;
+}
+
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  getRDepthMons
+ *  Description:  returns a random monster template from within the parameters
+ *  		
+ *  		minimum depth of mons = depth - (range/2 + middle)
+ *  		maximum depth of mons = depth + (range/2 + middle)
+ *  		so depth = 10, range = 4, middle = 1 will return a template with
+ *  		a depth between 9 and 13, inclusive
+ * =====================================================================================
+ */
+struct e_temp *getRDepthMons(int depth, int range, int middle){
+	int size = darray_usize(mons);
+	int min_d = depth - (range/2 + middle);
+	int max_d = depth + (range/2 + middle);
+	struct e_temp *ret = NULL, *t;
+	while(!ret){
+		int i = R_INT_M(size);
+		t = darray_get(mons, i);
+		if(t && t->depth >= min_d && t->depth <= max_d){
+			ret = t;
+		}
+	}
+
+	
+	return ret;
 }
 
 void spawnStart(struct level *lvl){
@@ -47,15 +93,9 @@ void spawnStart(struct level *lvl){
 	int i = 0;
 	int x = 0, y = 0;
 	while(i < numm){
-		struct entity *e = malloc(sizeof(struct entity)),
-			      *fr = darray_get(mons, 0);
-		memcpy(e, fr, sizeof(struct entity));
+		struct e_temp *fr = getRDepthMons(lvl->depth, 4, 1);
 		getRandLoc(lvl, &x, &y);
-		struct tile *t = &lvl->lvl[x][y];
-		t->ent = e;
-		e->loc = t;
-		e->list = lvl->mons;
-		darray_add(lvl->mons, e);
+		putMons(lvl, fr, x, y);
 		i++;		
 	}
 }

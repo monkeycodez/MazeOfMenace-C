@@ -1,0 +1,29 @@
+#This is the monster definition file
+#TODO: copyright
+#
+#	Syntax Basics:
+#		obviously lines with # are comments
+#
+#		basic example
+#		entity "entity-name" {
+#			PARAMETER = VALUE; 
+#		}; #note the comma
+#		'' deliniate chars, "" strings
+#		uninitalized parameters are set to a default value
+#
+#
+
+
+
+
+entity "goblin" {
+	depth = 1;
+	hpmin = 5;
+	hpmax = 20;       
+	defmin = 1;
+	defmax = 1;
+	attkmin = 1;
+	attkmax = 5;
+	char = 'g';
+	color = $CORANGE;
+};

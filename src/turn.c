@@ -29,14 +29,48 @@
 
 
 void gItem(struct dungeon *dgn){
-
+	int sz = darray_usize(dgn->p->loc->itm);
+	if(darray_usize(dgn->p->inv) >= 10){
+		return;
+	}
+	if(sz == 1){
+		union item *i = getItem(dgn->p->loc, darray_get(dgn->p->loc->itm, 0));
+		addToInv(dgn->p, i);
+	}else if(sz > 1){
+		char c = 48;
+		int i = 0;
+		char *str = malloc(sizeof(char) * 100);
+		putStringWithAttrib("Select an item: ", 34, 0);
+		for(i = 0; i < sz; i++){
+			union item *in = darray_get(dgn->p->loc->itm, i);
+			snprintf(str, 100, " -> %c the %s", c, in->w.name);
+			putStringWithAttrib(str, 35+i, 0);
+			c++;
+			i++;
+		}
+		displayScr();
+		char k = getKch();
+		if(k == 0) exit(0);
+		if(k < 48 || k > 57) return;
+		union item *is = getItem(dgn->p->loc, darray_get(dgn->p->loc->itm, k-48));
+		addToInv(dgn->p, is);
+	}
 }
 
 
 void turnp(enum direc d, struct dungeon *dgn){
 	if(d == GET){
+		if(darray_usize(dgn->p->inv) == 25){
+			addMsg("You can only have 25 items");
+			return;
+		}
+
 		if(dgn->p->loc->itm){
-			
+			if(darray_usize(dgn->p->loc->itm) > 0){
+				gItem(dgn);
+			}else{
+				return;
+			}
 		}else{
 			return;
 		}
@@ -62,14 +96,12 @@ void turnp(enum direc d, struct dungeon *dgn){
 		while(i < darray_usize(dgn->clvl->mons)){
 			struct entity *e = darray_get(dgn->clvl->mons, i);
 			e->scount--;
-	//		log_info("moving ent #%d, scount : %d\n", i, e->scount);
 			if(e->scount == 0){
 				monsAct(dgn, e);
 				e->scount = e->speed;
 			}
 			i++;
 		}
-	//	log_info("usize : %d\n", i);
 		dgn->p->scount--;
 		if(dgn->p->scount == 0) return;
 	}
@@ -98,7 +130,6 @@ void go_down(struct dungeon *dgn){
 		dgn->clvl->down = createLvl(dgn->clvl->depth+1);
 		dgn->clvl->down->up = dgn->clvl;
 	}	
-	log_info("going down to %d\n", dgn->clvl->depth + 1);
 	struct level *nlvl = dgn->clvl->down;
 	dgn->p->loc->ent = NULL;
 	dgn->p->loc = nlvl->sup;
@@ -126,9 +157,7 @@ void displayBar(struct dungeon *dgn){
 }
 
 void addMsg(char *msg){
-	int i = strlen(msg);
-	char *str = malloc(sizeof(char) * i);
-	strcpy(str, msg);
+	char *str = strdup(msg);
 	darray_add(msg_store, str);
 	
 }

@@ -24,6 +24,7 @@
 #include "term.h"
 #include "turn.h"
 #include "main.h"
+#include "inv.h"
 
 void initI(){
 	noecho();
@@ -33,7 +34,7 @@ void initI(){
 
 int startLoop(){
 	char c = getch();
-	if(c == KEY_END || c == 3){
+	if(c == KEY_END || c == CTRL_C_K){
 		return 0;
 	}
 	return c;
@@ -41,8 +42,8 @@ int startLoop(){
 
 int getKch(){
 	int c = getch();
-	if(c == KEY_END || c == 3){
-		return 0;
+	if(c == KEY_END || c == CTRL_C_K){
+		return NRESTART;
 	}
 	return c;
 }
@@ -104,11 +105,13 @@ int mainKeyParse(int c, struct dungeon *dgn){
 		case 'g':
 			turnp(GET, dgn);
 			break;
+		case 'i':
+			return invp(dgn);
 	}
 	if(dgn->p->hp <= 0){
 		return deathMsg();
 	}
-	return 0;
+	return CONT;
 }
 
 int mainLoop(struct dungeon *dgn){
@@ -122,12 +125,11 @@ int mainLoop(struct dungeon *dgn){
 			return 0;
 		}
 		int i = mainKeyParse(c, dgn);
-		if(i){
-			if(i == RESTARTN) break;
-			if(i == NRESTART) return 0;
-		}
+		if(i == CONT) continue;
+		if(i == RESTARTN) break;
+		if(i == NRESTART) return 0;
 	}
-	return c;
+	return RESTARTN;
 }
 
 

@@ -48,7 +48,7 @@ struct darray *darray_new2i(int defsz, int inc){
 }
 
 void darray_add(struct darray *arr, void *dat){
-	if(arr->tsize == arr->usize){
+	if(arr->tsize == arr->usize || arr->dat == NULL){
 		arr->dat = realloc(arr->dat, sizeof(void *)* (arr->tsize+arr->inc));
 		arr->tsize += arr->inc;
 	}

@@ -21,23 +21,33 @@
 #ifndef _TERM_H
 #define _TERM_H
 
-#define X_DISP_SIZE 90
-#define Y_DISP_SIZE 60
+#define X_DISP_SIZE 	90
+#define Y_DISP_SIZE 	60
 
-#define MSG_WSTART 33
+#define MSG_WSTART 	33
 
-#define CWHITE 1
-#define CRED 2
-#define CGREEN 3
-#define CYELLOW 4
-#define CBLUE 5
-#define CCYAN 6
-#define CMAGENTA 7
+#define CWHITE 		1
+#define CRED 		2
+#define CGREEN 		3
+#define CYELLOW 	4
+#define CBLUE 		5
+#define CCYAN 		6
+#define CMAGENTA	7
 
-#define CORANGE 8
-#define CORB 9
-#define CGRAY 10
+#define CORANGE 	8
+#define CORB 		9
+#define CGRAY 		10
 
+#define CWHITE_S	"$CWHITE"
+#define CRED_S 		"$CRED"
+#define CGREEN_S	"$CGREEN"
+#define CYELLOW_S	"$CYELLOW"
+#define CBLUE_S		"$CBLUE"
+#define CCYAN_S		"$CCYAN"
+#define CMAGENTA_S	"$CMAGENTA"
+#define CORANGE_S	"$CORANGE"
+#define CORB_S		"$CORB"
+#define	CGRAY_S		"$CGRAY"
 
 /*
  *functions
@@ -46,7 +56,7 @@
 void initEnv();
 void endEnv();
 void putChar(int x, int y, char c, int colNum);
-void putStringWithAttrib(char *str, int xStart, int yStart);
+void putStringWithAttrib(const char *str, int xStart, int yStart);
 void displayScr();
 void clearScr();
 

@@ -21,6 +21,7 @@
 #include "dgn.h"
 #include <stdlib.h>
 #include "turn.h"
+#include "alg/rand.h"
 
 void equipItm(struct entity *e, union item *i){
 	if(i->type == I_WEP){
@@ -40,6 +41,7 @@ void addToInv(struct entity *e, union item *i){
 	if(!e->inv){
 		e->inv = darray_new();
 	}
+	if(i == NULL) return;
 	darray_add(e->inv, i);
 }
 
@@ -53,13 +55,28 @@ union item *getItem(struct tile *t, union item *i){
 	if(t->itm == NULL) return NULL;
 	union item *in = darray_remove(t->itm, darray_search(t->itm, i));
 	if(darray_usize(t->itm) == 0){
-		darray_del(t->itm);
+		darray_clear(t->itm);
 	}
 	return in;
 }
 
+void addItoT(struct tile *t, union item *i){
+	if(t->itm == NULL){
+		t->itm = darray_new2i(5, 5);
+	}
+	darray_add(t->itm, i);
+}
+
 void chkDeath(struct entity *ent){
 	if(ent->hp <= 0){
+		if(dice_roll(3, 6, 0) > 10){
+			union item *i = malloc(sizeof(union item));
+			i->c.type = I_CHEST;
+			i->c.name = "armor";
+			i->c.based = 3;
+			i->c.ev = 0;
+			addItoT(ent->loc, i);
+		}
 		ent->loc->ent = NULL;
 		ent->loc = NULL;
 		ent->dead = 1;
@@ -68,6 +85,13 @@ void chkDeath(struct entity *ent){
 	}
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  canMove
+ *  Description:  Determins if an entity can move in direction d
+ *  		returns 0 if false, !0 if true
+ * =====================================================================================
+ */
 int canMove(enum direc d, struct entity *ent){
 	struct tile *n = NULL;
 	switch (d){
@@ -86,9 +110,10 @@ int canMove(enum direc d, struct entity *ent){
 		default:
 			return 0;
 	}
-	if(!n) return 0 ;
-	if(!n->ent) return 1;
-	return 0;
+	if(!n) return 0;
+	if(n->base == WALL) return 0;
+	if(n->ent) return 0;
+	return 1;
 }
 
 int canAttk(enum direc d, struct entity *ent){
@@ -114,9 +139,18 @@ int canAttk(enum direc d, struct entity *ent){
 	return 1;	
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  acalc
+ *  Description:  does damage caluclations and checks defenders death
+ *  		a - attacker
+ *  		b - defender
+ * =====================================================================================
+ */
 static void acalc(struct entity *a, struct entity *b){
-	
-	a->hp -= a->attk;
+	int dmg = a->attk - b->def;
+	dmg = dmg > 0 ? dmg : 0;
+	b->hp -= dmg;
 	char *s = malloc(sizeof(char) * (500) );
 	snprintf(s, 500, "%s hit %s", a->name, b->name);
 	addMsg(s);
@@ -124,6 +158,16 @@ static void acalc(struct entity *a, struct entity *b){
 	chkDeath(b);
 }
 
+
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  attkEnt
+ *  Description:  attackes an entity in direc d.  acalc is used for damage calc
+ *  		d - direction to attack in
+ *  		ent - attacker
+ * =====================================================================================
+ */
 void attkEnt(enum direc d, struct entity *ent){
 	struct tile *n = NULL;
 	switch (d){
@@ -148,6 +192,14 @@ void attkEnt(enum direc d, struct entity *ent){
 
 }
 
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  mvEnt
+ *  Description:  moves entity ent in direction d if possible. not possible
+ *  			if newloc is NULL or is wall;
+ * =====================================================================================
+ */
 void mvEnt(enum direc d, struct entity *ent){
 	struct tile *n = NULL;
 	switch (d){

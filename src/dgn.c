@@ -44,9 +44,11 @@ struct dungeon *initDgn(){
 	dgn->p->c = '@';
 	dgn->p->col = CBLUE;
 	dgn->p->attk = 6;
+	dgn->p->def = 1;
 	dgn->p->dead = 0;
 	dgn->p->list = NULL;
 	dgn->p->speed = 60;
+	dgn->p->inv = darray_new();
 	dgn->p->hp = 100;
 	dgn->p->hpmax = 100;
 	dgn->p->loc = lvl->sup;
