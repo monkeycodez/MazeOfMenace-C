@@ -24,6 +24,16 @@
 #include "alg/rand.h"
 #include <stdbool.h>
 
+void putItem(struct tile *t, int x, int y){
+	union item *i = darray_get(t->itm, 0);
+	switch(i->type){
+		case I_ORB:
+			putChar(x, y, ORB_C, CORB);
+		default:
+			putChar(x, y, i->g.disp, i->g.col);
+	}
+}
+
 void drawTile(struct tile *t, int x,int y){
 	if(!t->saw) return;
 
@@ -31,7 +41,7 @@ void drawTile(struct tile *t, int x,int y){
 		if(t->ent){
 			putChar(x, y, t->ent->c, t->ent->col);
 		}else if (t->itm != NULL && darray_usize(t->itm) > 0){
-			putChar(x, y, '%', CGREEN);
+			putItem(t, x, y);
 		}else if(t->base == WALL){
 			putChar(x, y, '#', CGRAY);
 		}else if(t->base == FLOOR){

@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include "turn.h"
 #include "alg/rand.h"
+#include "term.h"
 
 void equipItm(struct entity *e, union item *i){
 	if(i->type == I_WEP){
@@ -67,12 +68,14 @@ void addItoT(struct tile *t, union item *i){
 	darray_add(t->itm, i);
 }
 
-void chkDeath(struct entity *ent){
+int chkDeath(struct entity *ent){
 	if(ent->hp <= 0){
 		if(dice_roll(3, 6, 0) > 10){
 			union item *i = malloc(sizeof(union item));
 			i->c.type = I_CHEST;
 			i->c.name = "armor";
+			i->c.disp = '(';
+			i->c.col = CGREEN;
 			i->c.based = 3;
 			i->c.ev = 0;
 			addItoT(ent->loc, i);
@@ -82,7 +85,9 @@ void chkDeath(struct entity *ent){
 		ent->dead = 1;
 		if(ent->list)
 			darray_remove(ent->list, darray_search(ent->list, ent));
+		return ent->expamt;
 	}
+	return 0;
 }
 
 /* 
@@ -139,6 +144,17 @@ int canAttk(enum direc d, struct entity *ent){
 	return 1;	
 }
 
+static void lvl_up(struct entity *a){
+	if(a->exp >= (a->lvl*a->lvl)*3){
+		a->exp = 0;
+		a->lvl++;
+		a->attk += 2;
+		a->hpmax += 10;
+		a->hp = a->hpmax;
+		a->def++;
+	}
+}
+
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  acalc
@@ -155,7 +171,9 @@ static void acalc(struct entity *a, struct entity *b){
 	snprintf(s, 500, "%s hit %s", a->name, b->name);
 	addMsg(s);
 	free(s);
-	chkDeath(b);
+	int i = chkDeath(b);
+	a->exp += i;
+	lvl_up(a);
 }
 
 

@@ -123,6 +123,10 @@ void assignMembi(char *memb, int data){
 		ce->defmax = data;
 	}else if(strstr(memb, DEPTH_S)){
 		ce->depth = data;
+	}else if(strstr(memb, SPEED_S)){
+		ce->speed = data;
+	}else if(strstr(memb, EXPAMT_S)){
+		ce->expamt = data;
 	}else{
 		yyerror("No PNAME of memb");
 	}
@@ -192,7 +196,7 @@ void parseEnts(){
 
 
 /* Line 268 of yacc.c  */
-#line 196 "y.tab.c"
+#line 200 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -251,7 +255,7 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 130 "src/mparse.y"
+#line 134 "src/mparse.y"
 
 	char *str;
 	int i;
@@ -261,7 +265,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 265 "y.tab.c"
+#line 269 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -273,7 +277,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 277 "y.tab.c"
+#line 281 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -564,8 +568,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   143,   143,   144,   148,   153,   152,   171,   174,   176,
-     180,   180,   180,   180,   184,   190,   197,   203
+       0,   147,   147,   148,   152,   157,   156,   175,   178,   180,
+     184,   184,   184,   184,   188,   194,   201,   207
 };
 #endif
 
@@ -1504,12 +1508,12 @@ yyreduce:
         case 5:
 
 /* Line 1806 of yacc.c  */
-#line 153 "src/mparse.y"
+#line 157 "src/mparse.y"
     {
 		if(ce){
 			 yyerror("cannot have entity inside entity");
 		}
-		ce = malloc(sizeof(struct e_temp));
+		ce = malloc( sizeof(struct e_temp));
 		stripString((yyvsp[(2) - (2)].str));
 		ce->name = (yyvsp[(2) - (2)].str);
 	}
@@ -1518,9 +1522,9 @@ yyreduce:
   case 6:
 
 /* Line 1806 of yacc.c  */
-#line 162 "src/mparse.y"
+#line 166 "src/mparse.y"
     {	
-		//TODO: add to some list
+		//NOTE: cannot free ce, goes to list
 		printE();
 		add_mons(ce);
 		ce = NULL;
@@ -1530,7 +1534,7 @@ yyreduce:
   case 14:
 
 /* Line 1806 of yacc.c  */
-#line 185 "src/mparse.y"
+#line 189 "src/mparse.y"
     {
 		assignMembi((yyvsp[(1) - (3)].str), (yyvsp[(3) - (3)].i));
 	}
@@ -1539,7 +1543,7 @@ yyreduce:
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 191 "src/mparse.y"
+#line 195 "src/mparse.y"
     {
 		stripString((yyvsp[(3) - (3)].str));
 		assignMembcs((yyvsp[(1) - (3)].str), (yyvsp[(3) - (3)].str));
@@ -1549,7 +1553,7 @@ yyreduce:
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 198 "src/mparse.y"
+#line 202 "src/mparse.y"
     {
 		assignMembc((yyvsp[(1) - (3)].str), (yyvsp[(3) - (3)].c));
 	}
@@ -1558,7 +1562,7 @@ yyreduce:
   case 17:
 
 /* Line 1806 of yacc.c  */
-#line 204 "src/mparse.y"
+#line 208 "src/mparse.y"
     {
 		assignMembv((yyvsp[(1) - (3)].str), (yyvsp[(3) - (3)].str));
 	}
@@ -1567,7 +1571,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 1571 "y.tab.c"
+#line 1575 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

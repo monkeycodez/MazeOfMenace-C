@@ -24,6 +24,8 @@
 
 const char *invHdr = 
 "`r       -------INVENTORY--------       `";
+const char *invHelp =
+"     press Q to quit, press any other letter to select the item";
 
 char *getIName(union item *itm){
 	char *s;
@@ -57,7 +59,8 @@ void drawInv(struct dungeon *dgn, int sel){
 		free(name);
 		putStringWithAttrib(s, i+1, 0);
 	}
-	free(s);		
+	free(s);
+	putStringWithAttrib(invHelp, i+1, 0);
 	displayScr();
 
 }

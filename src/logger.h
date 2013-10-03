@@ -33,6 +33,8 @@
 #define LOG_FILE "mazeofmenace.log"
 #endif
 
+
+
 #define STR_ERRNO (errno == 0 ? "None" : strerror(errno)) 
 
 #ifndef NDEBUG

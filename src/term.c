@@ -28,8 +28,8 @@
 #define COL_ORB 9
 
 struct term{
-	char scn[X_DISP_SIZE][Y_DISP_SIZE];
-	char col[X_DISP_SIZE][Y_DISP_SIZE];
+	int scn[X_DISP_SIZE][Y_DISP_SIZE];
+	int col[X_DISP_SIZE][Y_DISP_SIZE];
 	int x, y;
 	int w, h;
 	char colon;
@@ -72,8 +72,13 @@ void endEnv(){
 	endwin();
 }
 
-void putChar(int x, int y, char c, int colNum){
+void putChar(int x, int y, int c, int colNum){
 	if(x < term->w && y < term->h){
+		switch (c){
+			case ORB_C:
+				c = ACS_DIAMOND;
+				break;
+		}
 		term->scn[x][y] = c;
 		term->col[x][y] = colNum;
 	}
@@ -81,7 +86,6 @@ void putChar(int x, int y, char c, int colNum){
 
 static void coladd(char col){
 	if(col == term->colon) return;
-	attron(A_NORMAL);
 	attroff(A_BOLD);
 	if(col == CORANGE) {
 		attron(COLOR_PAIR(CYELLOW) | A_DIM);
@@ -101,7 +105,10 @@ void displayScr(){
 	for(x = 0; x < term->w; x++){
 		for(y = 0; y < term->h; y++){
 			coladd(term->col[x][y]);
-			mvaddch(y, x, term->scn[x][y]);
+			if(term->scn[x][y] != (ORB_C) ){
+				move(y, x);
+				addch(term->scn[x][y]);
+			}
 		}
 	}
 	refresh();

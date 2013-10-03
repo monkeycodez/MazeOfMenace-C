@@ -35,7 +35,11 @@ void gItem(struct dungeon *dgn){
 	}
 	if(sz == 1){
 		union item *i = getItem(dgn->p->loc, darray_get(dgn->p->loc->itm, 0));
-		addToInv(dgn->p, i);
+		if(i->type == I_ORB){
+			dgn->ohave = 1;
+		}else{
+			addToInv(dgn->p, i);
+		}
 	}else if(sz > 1){
 		char c = 48;
 		int i = 0;
@@ -53,12 +57,25 @@ void gItem(struct dungeon *dgn){
 		if(k == 0) exit(0);
 		if(k < 48 || k > 57) return;
 		union item *is = getItem(dgn->p->loc, darray_get(dgn->p->loc->itm, k-48));
-		addToInv(dgn->p, is);
+		if(is->type == I_ORB){
+			dgn->ohave = 1;
+		}else{	
+			addToInv(dgn->p, is);
+	
+		}
 	}
 }
 
+void advHPCnt(struct entity *e){
+	e->hpcnt++;
+	if(e->hpcnt == 3){
+		if(e->hp < e->hpmax) e->hp++;
+		e->hpcnt = 0;
+	}
+}
 
 void turnp(enum direc d, struct dungeon *dgn){
+	advHPCnt(dgn->p);
 	if(d == GET){
 		if(darray_usize(dgn->p->inv) == 25){
 			addMsg("You can only have 25 items");
@@ -97,6 +114,7 @@ void turnp(enum direc d, struct dungeon *dgn){
 			struct entity *e = darray_get(dgn->clvl->mons, i);
 			e->scount--;
 			if(e->scount == 0){
+				advHPCnt(e);
 				monsAct(dgn, e);
 				e->scount = e->speed;
 			}
@@ -111,7 +129,9 @@ void turnp(enum direc d, struct dungeon *dgn){
 int go_up(struct dungeon *dgn){
 	if(dgn->p->loc->base != STAIR_UP) return 0;
 	if(!dgn->clvl->up){
-		//TODO: test for orb
+		if(dgn->ohave){
+			return WIN_MV;
+		}
 		return ESC_DGN;
 	}
 	int dph = dgn->clvl->depth - 1;
@@ -147,6 +167,9 @@ void displayBar(struct dungeon *dgn){
 		c = 'r';
 	}
 	snprintf(str, 500, "HP: `%c%d/%d`", c,  dgn->p->hp, dgn->p->hpmax );
+	if(dgn->ohave){
+		strncat(str, "   `fORB of Yendor!`", 500);
+	}
 	putStringWithAttrib(str, 33, 0);
 	free(str);
 	int i = 0;

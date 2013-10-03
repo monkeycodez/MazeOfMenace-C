@@ -35,6 +35,7 @@ struct dungeon *initDgn(){
 	struct level *lvl = createLvl(0);
 	darray_add(dgn->lvls, lvl);
 	dgn->clvl = lvl;
+	dgn->ohave = 0;
 	dgn->p =  malloc ( sizeof(struct entity) );
 	if ( dgn->p == NULL ) {
 		fprintf(stderr, "\ndynamic memory allocation failed\n" );
@@ -51,6 +52,8 @@ struct dungeon *initDgn(){
 	dgn->p->inv = darray_new();
 	dgn->p->hp = 100;
 	dgn->p->hpmax = 100;
+	dgn->p->exp = 0;
+	dgn->p->lvl = 1;
 	dgn->p->loc = lvl->sup;
 	lvl->sup->ent = dgn->p;
 

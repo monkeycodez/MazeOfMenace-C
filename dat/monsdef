@@ -18,12 +18,42 @@
 
 entity "goblin" {
 	depth = 1;
-	hpmin = 5;
+	hpmin = 10;
 	hpmax = 20;       
 	defmin = 1;
 	defmax = 1;
 	attkmin = 1;
 	attkmax = 5;
 	char = 'g';
+	speed = 50;
+	expamt = 1;
 	color = $CORANGE;
+};
+
+entity "kobold" {
+	depth = 4;
+	hpmin = 15;
+	hpmax = 25;
+	defmin = 1;
+	defmax = 3;
+	attkmin = 2;
+	attkmax = 7;
+	char = 'k';
+	speed = 50;
+	expamt = 1;
+	color = $CYELLOW;
+};
+
+entity "orc" {
+	depth = 7;
+	hpmin = 20;
+	hpmax = 40;
+	defmin = 5;
+	defmax = 10;
+	attkmin = 10;
+	attkmax = 15;
+	char = 'o';
+	speed = 50;
+	expamt = 1;
+	color = $CRED;
 };

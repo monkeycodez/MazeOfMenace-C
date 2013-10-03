@@ -20,6 +20,7 @@
 
 #ifndef _TERM_H
 #define _TERM_H
+#include <ncurses.h>
 
 #define X_DISP_SIZE 	90
 #define Y_DISP_SIZE 	60
@@ -49,13 +50,15 @@
 #define CORB_S		"$CORB"
 #define	CGRAY_S		"$CGRAY"
 
+#define ORB_C		-1
+
 /*
  *functions
  */
 
 void initEnv();
 void endEnv();
-void putChar(int x, int y, char c, int colNum);
+void putChar(int x, int y, int c, int colNum);
 void putStringWithAttrib(const char *str, int xStart, int yStart);
 void displayScr();
 void clearScr();

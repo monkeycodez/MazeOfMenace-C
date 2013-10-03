@@ -15,7 +15,7 @@
  *
  * =====================================================================================
  */
-
+#include <stdio.h>
 #include <stdlib.h>
 #include "logger.h"
 #include "dgn.h"
@@ -172,6 +172,80 @@ static void a1_cr(struct level *lvl){
 	spawnStart(lvl);
 }
 
+void getRandTtype(struct level *lvl, int *x, int *y, int ttype){
+	*x = R_INT_M(lvl->w - 2) + 1;
+	*y = R_INT_M(lvl->h - 2) + 1;
+	while(lvl->lvl[*x][*y].base != ttype){
+		*x = R_INT_M(lvl->w - 2) + 1;
+		*y = R_INT_M(lvl->h - 2) + 1;	
+	}
+}
+
+static int b1_wallct1(struct tile *t){
+	int w = 0;
+	if(t->n->base == WALL) w++;
+	if(t->s->base == WALL) w++;
+	if(t->w->base == WALL) w++;
+	if(t->e->base == WALL) w++;
+	if(t->e->n->base == WALL) w++;
+	if(t->e->s->base == WALL) w++;
+	if(t->w->n->base == WALL) w++;
+	if(t->w->s->base == WALL) w++;
+	return w;
+}
+
+
+static int b1_wallct(struct tile *t, struct level *lvl, int r){
+	int w = 0;
+	int x = t->x - r, y = t->y - r;
+	x = x < 0 ? 0 : x;
+	y = y < 0 ? 0 : x;
+	int y1 = y;
+	for(; x < t->x + r && x < lvl->w; x++){
+		for(y = y1; y < t->y + r && y < lvl->h; y++){
+			if(lvl->lvl[x][y].base == WALL){
+				w++;
+			}
+		}
+	}
+	if(t->base == WALL) w--;
+	return w;
+}
+
+
+static void b1_erode(struct level *lvl){
+	//start off with several random rooms
+	int x = 0, y = 0;
+	for(x = 1; x < lvl->w - 1; x++){
+		for(y = 1; y < lvl->h - 1; y++){
+			if( rand() % 100 < 45){
+				lvl->lvl[x][y].base = FLOOR;
+			}
+		}
+	}
+	int c = 0;
+	for(c = 0; c < 5; c++){
+		for(x = 1; x < lvl->w - 1; x++){
+			for(y = 1; y < lvl->h - 1; y++){
+				int wc = b1_wallct1(&lvl->lvl[x][y]);
+				if(wc >= 5){
+					lvl->lvl[x][y].base = WALL;
+				}
+				wc = b1_wallct(&lvl->lvl[x][y], lvl, 2);
+				if(wc == 0){
+					lvl->lvl[x][y].base = WALL;
+				}
+			}
+		}	
+	}
+
+}
+
+static void b1_cr(struct level *lvl){
+	a_createTiles(lvl);
+	b1_erode(lvl);
+	a1_mkStairs(lvl);
+}
 
 struct level *createLvl(int depth){
 	struct level *lvl = malloc(sizeof(struct level));

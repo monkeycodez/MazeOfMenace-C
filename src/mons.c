@@ -34,8 +34,6 @@ void add_mons(struct e_temp *e){
 }
 
 void load_mons(){
-	//TODO: make actual mons loading
-	
 	mons = darray_new();
 	parseEnts();
 		
@@ -53,10 +51,12 @@ void putMons(struct level *lvl, struct e_temp *ent, int x, int y){
 	e->hp = e->hpmax;
 	e->attk = R_INT_R(ent->attkmin, ent->attkmax);
 	e->def = R_INT_R(ent->defmin, ent->defmax);
-	e->speed = 50;
+	e->speed = ent->speed;
+	e->expamt = ent->expamt;
 	e->scount = e->speed;
 	e->c = ent->disp;
 	e->col = ent->color;
+	e->lvl = 9999;
 }
 
 
@@ -93,9 +93,9 @@ void spawnStart(struct level *lvl){
 	int i = 0;
 	int x = 0, y = 0;
 	while(i < numm){
-		struct e_temp *fr = getRDepthMons(lvl->depth, 4, 1);
+		struct e_temp *temp = getRDepthMons(lvl->depth, 4, 2);
 		getRandLoc(lvl, &x, &y);
-		putMons(lvl, fr, x, y);
+		putMons(lvl, temp, x, y);
 		i++;		
 	}
 }

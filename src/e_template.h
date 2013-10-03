@@ -29,8 +29,10 @@ struct e_temp{
 	int hpmax, hpmin;
 	int attkmax, attkmin;
 	int defmax, defmin;
-	char disp;
 	int color;
+	int expamt;
+	int speed;
+	char disp;
 };
 
 #define HPMAX_S 	"hpmax"
@@ -42,6 +44,8 @@ struct e_temp{
 #define DEPTH_S		"depth"
 #define DISP_S		"char"
 #define COL_S		"color"
+#define SPEED_S		"speed"
+#define EXPAMT_S	"exp"
 
 void parseEnts();
 

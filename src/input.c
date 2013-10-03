@@ -48,6 +48,15 @@ int getKch(){
 	return c;
 }
 
+int do_win(){
+	clearScr();
+	putStringWithAttrib("You win", 5, 5);
+	displayScr();
+	int i = getKch();
+	if(i) return RESTARTN;
+	return NRESTART;
+}
+
 
 int do_ecsDGN(){
 	clearScr();
@@ -94,7 +103,10 @@ int mainKeyParse(int c, struct dungeon *dgn){
 			i = go_up(dgn);
 			if(i == ESC_DGN){
 				return do_ecsDGN();
+			}else if(i == WIN_MV){
+				return do_win();
 			}
+
 			break;
 		case 'd':
 			turnp(DRINK, dgn);

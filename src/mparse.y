@@ -56,6 +56,10 @@ void assignMembi(char *memb, int data){
 		ce->defmax = data;
 	}else if(strstr(memb, DEPTH_S)){
 		ce->depth = data;
+	}else if(strstr(memb, SPEED_S)){
+		ce->speed = data;
+	}else if(strstr(memb, EXPAMT_S)){
+		ce->expamt = data;
 	}else{
 		yyerror("No PNAME of memb");
 	}
@@ -154,13 +158,13 @@ entity:
 		if(ce){
 			 yyerror("cannot have entity inside entity");
 		}
-		ce = malloc(sizeof(struct e_temp));
+		ce = malloc( sizeof(struct e_temp));
 		stripString($2);
 		ce->name = $2;
 	}
 	ebody 
 	{	
-		//TODO: add to some list
+		//NOTE: cannot free ce, goes to list
 		printE();
 		add_mons(ce);
 		ce = NULL;

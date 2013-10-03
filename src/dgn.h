@@ -47,17 +47,29 @@ enum direc{
 	GET
 };
 
+struct g_item{
+	short type;
+	char *name;
+	int disp;
+	int col;
+};
+
 struct weapon{
 	short type;
 	char *name;
+	int disp;
+	int col;
 	int basea;
 	int toHit;
 	int wepp;
+
 };
 
 struct a_chest{
 	short type;
 	char *name;
+	int disp;
+	int col;
 	int based;
 	int ev;
 };
@@ -65,6 +77,8 @@ struct a_chest{
 struct consume{
 	short type;
 	char *name;
+	int disp;
+	int col;
 	int cnt;
 	int pow;
 	int (*cons_use_f)(struct dungeon *dgn, int pow);
@@ -72,9 +86,11 @@ struct consume{
 
 #define I_WEP 1
 #define I_CHEST 2
+#define I_ORB -1
 
 union item{
 	short type;
+	struct g_item g;
 	struct weapon w;
 	struct a_chest c;
 	struct consume i;
@@ -89,6 +105,8 @@ struct entity{
 	       def,
 	       speed,
 	       scount;
+	int exp, expamt, lvl; //
+	char hpcnt;   //counter for hp restore
 	//attribs
 	int str;  //attack bonus
 	int cons; //defense bonus 
@@ -133,6 +151,7 @@ struct dungeon{
 	int mdepth;
 	struct darray *lvls;
 	struct level *clvl;
+	int ohave;
 };
 
 struct dungeon *initDgn();
