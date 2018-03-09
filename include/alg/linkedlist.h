@@ -18,8 +18,11 @@
 
 
 #ifndef  _LINKEDLIST_H
+#define  _LINKEDLIST_H
 
 struct llist;
+
+typedef struct llist llist;
 
 struct llist *llist_new();
 
@@ -36,5 +39,9 @@ void llist_shift(struct llist *list, void *data);
 void *llist_unshift(struct llist *list);
 
 void *llist_get(struct llist *list, int i);
+
+void *llist_peek(struct llist *list);
+
+void *llist_look(struct llist *list);
 
 #endif     /* -----  not _LINKEDLIST_H  ----- */

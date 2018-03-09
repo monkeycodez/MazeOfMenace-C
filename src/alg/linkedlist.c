@@ -15,7 +15,7 @@
  *
  * =====================================================================================
  */
-#include "linkedlist.h"
+#include "alg/linkedlist.h"
 #include <stdlib.h>
 
 struct lnode{
@@ -48,6 +48,7 @@ static struct lnode *lnode_new(void *ptr){
 	return n;
 }
 
+/* add a value to the end of the list */
 void llist_push(struct llist *list, void *val){
 	if(!list->first){
 		struct lnode *n = lnode_new(val);
@@ -67,7 +68,7 @@ void llist_push(struct llist *list, void *val){
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  llist_pop
- *  Description:  
+ *  Description:  removes a node from the end of the list
  * =====================================================================================
  */
 void *llist_pop (struct llist *list){
@@ -114,6 +115,7 @@ void *llist_get(struct llist *list, int i){
 	}
 }
 
+/* remove a node from the front of the list */
 void *llist_unshift(struct llist *list){
 	void *d = NULL;
 	if(list->size == 1){
@@ -135,6 +137,7 @@ void *llist_unshift(struct llist *list){
 	return NULL;
 }
 
+/*  put a node on the front of the list */
 void llist_shift(struct llist *list, void *data){
 	if(list->size == 0){
 		struct lnode *n = lnode_new(data);
@@ -174,5 +177,12 @@ void llist_del(struct llist *list){
 	}
 }
 
+void *llist_peek(struct llist *list){
+	return (list->last != NULL) ? list->last->data : NULL;
+}
+
+void *llist_look(struct llist *list){
+	return (list->first != NULL) ? list->first->data : NULL;
+}
 
 

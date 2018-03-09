@@ -53,7 +53,7 @@ void gItem(struct dungeon *dgn){
 			i++;
 		}
 		displayScr();
-		char k = getKch();
+		char k = 0; // getKch();
 		if(k == 0) exit(0);
 		if(k < 48 || k > 57) return;
 		union item *is = getItem(dgn->p->loc, darray_get(dgn->p->loc->itm, k-48));

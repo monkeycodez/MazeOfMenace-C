@@ -5,7 +5,7 @@
  *
  *    Description:  
  *
- *        Version:  1.0
+ r        Version:  1.
  *        Created:  07/19/2013 02:25:15 PM
  *       Revision:  none
  *       Compiler:  gcc
@@ -22,13 +22,11 @@
 #include <stdarg.h>
 
 
-void _log_add(char *file, char *msg, ...){
-	FILE* f = fopen(file, "a");
-	if(!f) exit(-1);
-	va_list argptr;
-	va_start(argptr, msg);
-	vfprintf(f, msg, argptr);
-	va_end(argptr);
-	fflush(f);
-	fclose(f);
+FILE *_get_logfile(char *file){
+	static FILE* f = NULL;
+	if(!f){ 
+		f = fopen(file, "a");
+		if(!f) exit(-1);
+	}
+	return f;
 }

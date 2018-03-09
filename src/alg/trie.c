@@ -16,8 +16,8 @@
  * =====================================================================================
  */
 
-#include "trie.h"
-#include "darray.h"
+#include "alg/trie.h"
+#include "alg/darray.h"
 #include <string.h>
 #include <stdlib.h>
 

@@ -21,6 +21,21 @@
 
 #include "dgn.h"
 
+//struct key_event{
+	//int code;
+//}; 
+
+//typedef struct key_event key_event;
+
+//typedef struct key_event *(*get_event_cb)(void *inp_dev);
+//typedef int (*init_in_sys_cb)(void **in_dev);
+
+//struct key_event *get_event_nc(void *n);
+//int init_in_sys_nc(void **n);
+
+
+//Old Stuff
+
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -30,9 +45,13 @@
  */
 void initI();
 
-int startLoop();
+//int startLoop();
 
-int mainLoop(struct dungeon *dgn);
+//int mainLoop(struct dungeon *dgn);
+
+void dg_showd();
+void dg_input();
+void in_keysink();
 
 
 /* 
@@ -42,7 +61,7 @@ int mainLoop(struct dungeon *dgn);
  *  			die key
  * =====================================================================================
  */
-int getKch();
+//int getKch();
 
 #define RESTARTN 255
 #define CONT 254

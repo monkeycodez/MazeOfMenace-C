@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "darray.h"
+#include "alg/darray.h"
 
 struct darray{
 	void **dat;

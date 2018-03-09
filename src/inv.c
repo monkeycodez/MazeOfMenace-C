@@ -69,7 +69,7 @@ void drawInv(struct dungeon *dgn, int sel){
 int invp(struct dungeon *dgn){
 	while(1){
 		drawInv(dgn, -1);
-		int c = getKch();
+		int c = 'Q'; // getKch();
 		
 		if(c == NRESTART){
 			return NRESTART;
@@ -82,7 +82,7 @@ int invp(struct dungeon *dgn){
 				clearScr();
 				drawInv(dgn, idx);
 				displayScr();
-				int k = getKch();
+				/*int k = getKch();*/
 
 			}
 		}

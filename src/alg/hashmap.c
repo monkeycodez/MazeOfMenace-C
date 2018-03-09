@@ -17,8 +17,8 @@
  */
 
 #include <stdlib.h>
-#include "hashmap.h"
-#include "darray.h"
+#include "alg/hashmap.h"
+#include "alg/darray.h"
 #include <string.h>
 
 

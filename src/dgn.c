@@ -20,6 +20,7 @@
 #include "dgn.h"
 #include "term.h"
 #include "turn.h"
+#include "logger.h"
 
 void displayDungeon(struct dungeon *dgn){
 	makeLOS(dgn);

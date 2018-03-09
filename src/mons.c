@@ -72,6 +72,7 @@ void putMons(struct level *lvl, struct e_temp *ent, int x, int y){
  * =====================================================================================
  */
 struct e_temp *getRDepthMons(int depth, int range, int middle){
+	if(mons == NULL) return NULL;
 	int size = darray_usize(mons);
 	int min_d = depth - (range/2 + middle);
 	int max_d = depth + (range/2 + middle);
@@ -94,6 +95,7 @@ void spawnStart(struct level *lvl){
 	int x = 0, y = 0;
 	while(i < numm){
 		struct e_temp *temp = getRDepthMons(lvl->depth, 4, 2);
+		if(temp == NULL){ i++; continue;}
 		getRandLoc(lvl, &x, &y);
 		putMons(lvl, temp, x, y);
 		i++;		
