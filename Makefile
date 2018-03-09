@@ -1,20 +1,29 @@
-CFLAGS = -g -Wall 
-LIBS=-lncurses -lfl
+CFLAGS = -g -Wall -std=gnu11
+LIBS= -lcurses -Iinclude
+
+OBJDIR=obj
 
 SRCS=$(wildcard src/**/*.c src/*.c)
-OBJECTS=$(patsubst %.c,%.o,$(SRCS))
+OBJECTS=$(addprefix $(OBJDIR)/, $(patsubst src/%.c,%.o,$(SRCS)))
 
 CC=gcc
+
+vpath %.c src
 
 TARGET=bin/mazeofmenace
 
 all: $(TARGET)
 
-$(TARGET): parser  build $(OBJECTS)
-	$(CC) -o $(TARGET) $(OBJECTS) $(LIBS)
+run: all
+	$(TARGET)
 
-build:
-	$(CC) $(CFLAGS) $(LIBS) -c -o $@
+$(TARGET):  build #parser
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) $(LIBS)
+
+build:	$(OBJECTS)
+
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $< $(LIBS)
 
 parser:
 	lex src/*.l

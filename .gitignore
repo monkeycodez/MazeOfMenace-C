@@ -5,3 +5,8 @@ old
 *.swp
 *~
 exper/*
+test/*
+*.py
+Sconstruct
+*.log
+.*
